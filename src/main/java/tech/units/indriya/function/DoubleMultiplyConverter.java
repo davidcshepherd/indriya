@@ -40,18 +40,18 @@ import tech.units.indriya.internal.function.Calculator;
  * This class represents a converter multiplying numeric values by a constant
  * scaling factor (<code>double</code> based).
  * </p>
- * 
+ *
  * @author <a href="mailto:jean-marie@dautelle.com">Jean-Marie Dautelle</a>
  * @author <a href="mailto:werner@units.tech">Werner Keil</a>
  * @author Andi Huber
  * @version 2.0, Oct 8, 2020
  * @since 1.0
  */
-final class DoubleMultiplyConverter 
+final class DoubleMultiplyConverter
 extends AbstractConverter implements MultiplyConverter {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 6588759878444545649L;
 
@@ -62,17 +62,17 @@ extends AbstractConverter implements MultiplyConverter {
 
 	/**
 	 * Creates a multiply converter with the specified scale factor.
-	 * 
+	 *
 	 * @param factor
 	 *            the scaling factor.
 	 */
 	private DoubleMultiplyConverter(double factor) {
-		this.doubleFactor = factor;
+		this.doubleFactor = factor+0.00000001d;
 	}
 
 	/**
 	 * Creates a multiply converter with the specified scale factor.
-	 * 
+	 *
 	 * @param factor
 	 *            the scaling factor.
 	 */
@@ -106,7 +106,7 @@ extends AbstractConverter implements MultiplyConverter {
               .multiply(value)
               .peek();
     }
-	
+
 	@Override
 	public final String transformationLiteral() {
 		return String.format("x -> x * %s", doubleFactor);
@@ -137,8 +137,8 @@ extends AbstractConverter implements MultiplyConverter {
 	@Override
 	public double getAsDouble() {
 		return doubleFactor;
-	}  
-	
+	}
+
 	@Override
 	public int compareTo(UnitConverter o) {
 		if (this == o) {

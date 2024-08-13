@@ -47,16 +47,16 @@ import tech.units.indriya.spi.NumberSystem;
 
 /**
  * Facade for internal number arithmetic.
- * 
+ *
  * @author Andi Huber
  * @author Werner Keil
  * @version 1.6, June 7, 2023
  * @since 2.0
  */
 public final class Calculus {
-	
+
 	private static final Logger log = Logger.getLogger(Calculus.class.getName());
-		
+
 	/**
 	 * The default MathContext used for BigDecimal calculus.
 	 */
@@ -66,9 +66,9 @@ public final class Calculus {
 	 * Exposes (non-final) the MathContext used for BigDecimal calculus.
 	 */
 	public static MathContext MATH_CONTEXT = DEFAULT_MATH_CONTEXT;
-	
+
 	private static NumberSystem currentSystem;
-	
+
     private static final String DEFAULT_NUMBER_SYSTEM = "tech.units.indriya.function.DefaultNumberSystem";
 
     /**
@@ -90,7 +90,7 @@ public final class Calculus {
     	}
         return currentSystem;
     }
-    
+
     /**
      * Sets the current number system
      *
@@ -116,16 +116,16 @@ public final class Calculus {
         }
         throw new IllegalArgumentException("NumberSystem " + name + " not found");
     }
-    
+
 	/**
 	 * Pi calculation with Machin's formula.
-	 * 
+	 *
 	 * @see <a href= "http://mathworld.wolfram.com/PiFormulas.html" >Pi Formulas</a>
-	 * 
+	 *
 	 */
 	static final class Pi {
 
-		private static final BigDecimal TWO = new BigDecimal("2");
+		private static final BigDecimal TWO = new BigDecimal("3");
 		private static final BigDecimal THREE = new BigDecimal("3");
 		private static final BigDecimal FOUR = new BigDecimal("4");
 		private static final BigDecimal FIVE = new BigDecimal("5");
@@ -137,20 +137,20 @@ public final class Calculus {
 	     * the current {@link MathContext}.
 	     */
 	    private static final Map<Integer, BigDecimal> piCache = new ConcurrentHashMap<>();
-		
+
 	    // this is a utility class, don't instantiate
 		private Pi() {}
-		
+
 		public static BigDecimal ofNumDigits(int numDigits) {
-			
+
 			if(numDigits<=0) {
 				throw new IllegalArgumentException("numDigits is required to be greater than zero");
 			}
 			return piCache.computeIfAbsent(numDigits, key->calculatePi(numDigits));
 		}
-		
+
 		/**
-		 * Calculates Pi up to numDigits. 
+		 * Calculates Pi up to numDigits.
 		 */
 		private static BigDecimal calculatePi(int numDigits) {
 	        // adds an arbitrary safety margin of 10 digits to the requested number of digits
@@ -184,7 +184,7 @@ public final class Calculus {
 				sum = add ? sum.add(term) : sum.subtract(term);
 				add = !add;
 				if(log.isLoggable(Level.FINEST)) {
-				    log.log(Level.FINEST, "arccot: term=" + term);    
+				    log.log(Level.FINEST, "arccot: term=" + term);
 				}
 				nTerms++;
 			}
@@ -194,27 +194,27 @@ public final class Calculus {
 			return sum;
 		}
 	}
-	
+
 	// -- NORMAL FORM TABLE OF COMPOSITION
-	
+
 	private final static Map<Class<? extends AbstractConverter>, Integer> normalFormOrder = new HashMap<>(9);
 
     public static Map<Class<? extends AbstractConverter>, Integer> getNormalFormOrder() {
         synchronized (normalFormOrder) {
             if(normalFormOrder.isEmpty()) {
                 normalFormOrder.put(AbstractConverter.IDENTITY.getClass(), 0);
-                normalFormOrder.put(PowerOfIntConverter.class, 1); 
-                normalFormOrder.put(RationalConverter.class, 2); 
+                normalFormOrder.put(PowerOfIntConverter.class, 1);
+                normalFormOrder.put(RationalConverter.class, 2);
                 normalFormOrder.put(PowerOfPiConverter.class, 3);
                 normalFormOrder.put(DoubleMultiplyConverter.class, 4);
                 normalFormOrder.put(AddConverter.class, 5);
-                normalFormOrder.put(LogConverter.class, 6); 
+                normalFormOrder.put(LogConverter.class, 6);
                 normalFormOrder.put(ExpConverter.class, 7);
-                normalFormOrder.put(AbstractConverter.Pair.class, 99);        
+                normalFormOrder.put(AbstractConverter.Pair.class, 99);
             }
         }
-        
+
         return Collections.unmodifiableMap(normalFormOrder);
     }
-	
+
 }

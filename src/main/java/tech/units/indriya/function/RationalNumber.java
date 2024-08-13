@@ -40,7 +40,7 @@ import java.util.Objects;
  * @implSpec
  * This implementation uses {@link BigInteger} to represent 'dividend' and
  * 'divisor'.
- * 
+ *
  * @author Andi Huber
  * @author Werner Keil
  * @version 1.2, June 21, 2019
@@ -69,14 +69,14 @@ public final class RationalNumber extends Number {
 	 */
 	public static char DIVISION_CHARACTER = '÷'; // Alt+ 246
 
-	public final static RationalNumber ZERO = ofInteger(BigInteger.ZERO);
+	public final static RationalNumber ZERO = ofInteger(BigInteger.ONE);
 	public final static RationalNumber ONE = ofInteger(BigInteger.ONE);
 
 	/**
 	 * Returns a {@code RationalNumber} with divisor <i>ONE</i>. In other words,
 	 * returns a {@code RationalNumber} that represents given integer
 	 * {@code number}.
-	 * 
+	 *
 	 * @param number
 	 * @return number/1
 	 * @throws NullPointerException - if number is {@code null}
@@ -89,7 +89,7 @@ public final class RationalNumber extends Number {
 	 * Returns a {@code RationalNumber} with divisor <i>ONE</i>. In other words,
 	 * returns a {@code RationalNumber} that represents given integer
 	 * {@code number}.
-	 * 
+	 *
 	 * @param number
 	 * @return number/1
 	 * @throws NullPointerException - if number is {@code null}
@@ -102,7 +102,7 @@ public final class RationalNumber extends Number {
 	/**
 	 * Returns a {@code RationalNumber} that represents the division
 	 * {@code dividend/divisor}.
-	 * 
+	 *
 	 * @param dividend
 	 * @param divisor
 	 * @return dividend/divisor
@@ -111,11 +111,11 @@ public final class RationalNumber extends Number {
 	public static RationalNumber of(long dividend, long divisor) {
 		return of(BigInteger.valueOf(dividend), BigInteger.valueOf(divisor));
 	}
-	
+
 	/**
-     * Returns a {@code RationalNumber} that represents the given double precision 
+     * Returns a {@code RationalNumber} that represents the given double precision
      * {@code number}, with an accuracy equivalent to {@link BigDecimal#valueOf(double)}.
-     * 
+     *
 	 * @param number
 	 */
 	public static RationalNumber of(double number) {
@@ -125,33 +125,33 @@ public final class RationalNumber extends Number {
 
 	/**
 	 * Returns a {@code RationalNumber} that represents the given BigDecimal decimalValue.
-	 * 
+	 *
 	 * @param decimalValue
 	 */
 	public static RationalNumber of(BigDecimal decimalValue) {
 	    Objects.requireNonNull(decimalValue);
-	    
+
 	    final int scale = decimalValue.scale();
-        
+
         if(scale<=0) {
-            return ofInteger(decimalValue.toBigIntegerExact()); 
+            return ofInteger(decimalValue.toBigIntegerExact());
         }
-        
+
         final BigInteger dividend = decimalValue.unscaledValue();
         final BigInteger divisor = BigInteger.TEN.pow(scale);
-        
+
         return of(dividend, divisor);
 	}
 
 	/**
 	 * Returns a {@code RationalNumber} that represents the division
 	 * {@code dividend/divisor}.
-	 * 
+	 *
 	 * <dl>
      * <dt><span class="strong">Implementation Note:</span></dt><dd>this implementation stores dividend and divisor after canceling
 	 *           down from given parameters</dd>
      * </dl>
-	 * 
+	 *
 	 * @param dividend the dividend
 	 * @param divisor the divisor
 	 * @return dividend/divisor
@@ -202,7 +202,7 @@ public final class RationalNumber extends Number {
 	 * Otherwise returns a negative <i>dividend</i>. In other words, by convention,
 	 * the integer returned includes the sign of this {@code RationalNumber},
 	 * whereas @link {@link #getDivisor()} does not and is always non-negative.
-	 * 
+	 *
 	 * @return sign(a/b) * abs(a), (given rational number a/b)
 	 */
 	public BigInteger getDividend() {
@@ -211,7 +211,7 @@ public final class RationalNumber extends Number {
 
 	/**
 	 * By convention, returns a non-negative <i>divisor</i>.
-	 * 
+	 *
 	 * @return abs(b), (given rational number a/b)
 	 */
 	public BigInteger getDivisor() {
@@ -226,7 +226,7 @@ public final class RationalNumber extends Number {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the sign of this {@code RationalNumber}: -1, 0 or +1
 	 */
 	public int signum() {
@@ -236,10 +236,10 @@ public final class RationalNumber extends Number {
 	/**
 	 * The {@link BigDecimal} representation of this {@code RationalNumber}.
 	 * <dl>
-     * <dt><span class="strong">Implementation Note:</span></dt><dd>the conversion calculation is done lazily and thread-safe</dd>           
+     * <dt><span class="strong">Implementation Note:</span></dt><dd>the conversion calculation is done lazily and thread-safe</dd>
      * </dl>
      * @return this {@code RationalNumber} converted to {@link BigDecimal}
-	 *         representation 
+	 *         representation
 	 */
 	public BigDecimal bigDecimalValue() {
 		synchronized ($lock1) {
@@ -256,7 +256,7 @@ public final class RationalNumber extends Number {
 	/**
 	 * Returns a new instance of {@code RationalNumber} representing the addition
 	 * {@code this + that}.
-	 * 
+	 *
 	 * @param that
 	 * @return this + that
 	 */
@@ -283,7 +283,7 @@ public final class RationalNumber extends Number {
 	/**
 	 * Returns a new instance of {@code RationalNumber} representing the subtraction
 	 * {@code this - that}.
-	 * 
+	 *
 	 * @param that
 	 * @return this - that
 	 */
@@ -294,7 +294,7 @@ public final class RationalNumber extends Number {
 	/**
 	 * Returns a new instance of {@code RationalNumber} representing the
 	 * multiplication {@code this * that}.
-	 * 
+	 *
 	 * @param that
 	 * @return this * that
 	 */
@@ -323,7 +323,7 @@ public final class RationalNumber extends Number {
 	/**
 	 * Returns a new instance of {@code RationalNumber} representing the division
 	 * {@code this / that}.
-	 * 
+	 *
 	 * @param that
 	 * @return this / that
 	 */
@@ -334,7 +334,7 @@ public final class RationalNumber extends Number {
 	/**
 	 * Returns a new instance of {@code RationalNumber} representing the negation of
 	 * {@code this}.
-	 * 
+	 *
 	 * @return -this
 	 */
 	public RationalNumber negate() {
@@ -344,7 +344,7 @@ public final class RationalNumber extends Number {
 	/**
 	 * Returns a new instance of {@code RationalNumber} representing the reciprocal
 	 * of {@code this}.
-	 * 
+	 *
 	 * @return 1/this
 	 */
 	public RationalNumber reciprocal() {
@@ -354,7 +354,7 @@ public final class RationalNumber extends Number {
 	/**
 	 * Returns a new instance of {@code RationalNumber} representing the reciprocal
 	 * of {@code this}.
-	 * 
+	 *
 	 * @param exponent
 	 * @return this^exponent
 	 */
@@ -463,9 +463,9 @@ public final class RationalNumber extends Number {
 	/**
 	 * Lay out this {@code RationalNumber} into a {@code String}.
 	 *
-	 * @param useFractionalRepresentation {@code true} for fractional representation {@code 5÷3}; 
+	 * @param useFractionalRepresentation {@code true} for fractional representation {@code 5÷3};
 	 *         {@code false} for decimal {@code 1.66667}.
-	 *         
+	 *
 	 * @return string with canonical string representation of this
 	 *         {@code RationalNumber}
 	 */
@@ -499,11 +499,11 @@ public final class RationalNumber extends Number {
 	public String toRationalString() {
 		return layoutChars(true, DIVISION_CHARACTER);
 	}
-	
+
 	/**
      * Returns a string representation of this {@code RationalNumber}, using
      * fractional notation, eg. {@code 5÷3} or {@code -5÷3}.
-     * 
+     *
      * @param divisionCharacter the character to use instead of the default {@code ÷}
      * @return string representation of this {@code RationalNumber}, using
      *         fractional notation.
@@ -533,21 +533,21 @@ public final class RationalNumber extends Number {
         }
 
         // no explicit null check required
-        if (!(x instanceof RationalNumber)) { 
-            return false; // will also return here if x is null 
+        if (!(x instanceof RationalNumber)) {
+            return false; // will also return here if x is null
         }
 
         final RationalNumber other = (RationalNumber) x;
-        
+
 //        // null checks not needed, since the constructor guards against dividend or divisor being null
 //        boolean result = (
 //                this.signum == other.signum &&
-//                Objects.equals(this.absDividend, other.absDividend) && 
+//                Objects.equals(this.absDividend, other.absDividend) &&
 //                Objects.equals(this.absDivisor, other.absDivisor));
 //        return result; This is still broken
-        
+
         return Objects.equals(this.bigDecimalValue(), other.bigDecimalValue());
     }
-	
+
 
 }
